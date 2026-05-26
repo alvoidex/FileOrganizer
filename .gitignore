@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+bin/
+obj/
+.vs/
+/FileOrganizer/.vs/
+/FileOrganizer/obj
+/FileOrganizer/bin/Debug/net10.0
+/.vs/ProjectEvaluation
+/FileOrganizer/bin/Debug/net10.0
+/FileOrganizer/obj
+/FileOrganizer/.vs
+/FileOrganizer/Program.cs
+/LICENSE
