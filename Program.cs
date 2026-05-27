@@ -4,7 +4,21 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var Organizer = new FileOrganizer();
+        }
+    }
+    class FileOrganizer
+    {
+        public void Start()
+        {
+
+        }
+        private void OrganizeFiles()
+        {
+        }
+
+        private string GetCategory()
+        {
         }
     }
 }
