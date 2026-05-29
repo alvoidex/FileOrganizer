@@ -12,6 +12,7 @@
     {
         public void Start()
         {
+            Console.Write("Введите путь:\n> ");
             string? srcPath = Console.ReadLine()?.Trim().Trim('"');
             if (string.IsNullOrWhiteSpace(srcPath) ||!Directory.Exists(srcPath))
             {
@@ -19,14 +20,29 @@
                 return;
 
             }
-            var path = File.ReadLines(srcPath);
+            OrganizeFiles(srcPath);
         }
-        private void OrganizeFiles()
+        private void OrganizeFiles(string srcPath)
         {
+            var files = Directory.GetFiles(srcPath);
+            foreach (var filePath in files)
+            {
+                string extension = Path.GetExtension(filePath).ToLower();
+                string category = GetCategory(extension);
+                Console.WriteLine($"{filePath} -> {category}");
+            }
         }
-
-        private string GetCategory()
+        private string GetCategory(string extension)
         {
+            if (string.IsNullOrEmpty(extension)) return "Other";
+            return extension.ToLower() switch
+            {
+                ".png" or ".jpg" or ".jpeg" or ".gif" or ".raw" or ".bmp" => "Images",
+                ".mp4" or ".mov" or ".mkv" or ".mpeg" or ".avi" or ".wmv" or ".flv" => "Videos",
+                ".doc" or ".docx" or ".txt" or ".fb2" or ".csv" or ".json" or ".pdf" or ".xlsx" or ".xls" or ".rtf" or ".epub" or ".ppt" => "Documents",
+                ".mp3" or ".flac" or ".wav" or ".aiff" or ".aac" or ".ogg" => "Audio",
+                _ => "Other"
+            };
         }
     }
 }
