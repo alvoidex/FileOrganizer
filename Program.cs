@@ -25,11 +25,19 @@
         private void OrganizeFiles(string srcPath)
         {
             var files = Directory.GetFiles(srcPath);
+            var stats = new Dictionary<string, int>();
             foreach (var filePath in files)
             {
                 string extension = Path.GetExtension(filePath).ToLower();
                 string category = GetCategory(extension);
+                if (!stats.ContainsKey(category)) stats[category] = 0;
+                stats[category]++;
                 Console.WriteLine($"{filePath} -> {category}");
+            }
+            Console.WriteLine("Статистика:");
+            foreach (var item in stats)
+            {
+                Console.WriteLine($"Найдено {item.Key}: {item.Value}");
             }
         }
         private string GetCategory(string extension)
