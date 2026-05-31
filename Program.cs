@@ -45,12 +45,20 @@
             if (string.IsNullOrEmpty(extension)) return "Other";
             return extension.ToLower() switch
             {
-                ".png" or ".jpg" or ".jpeg" or ".gif" or ".raw" or ".bmp" => "Images",
-                ".mp4" or ".mov" or ".mkv" or ".mpeg" or ".avi" or ".wmv" or ".flv" => "Videos",
-                ".doc" or ".docx" or ".txt" or ".fb2" or ".csv" or ".json" or ".pdf" or ".xlsx" or ".xls" or ".rtf" or ".epub" or ".ppt" => "Documents",
-                ".mp3" or ".flac" or ".wav" or ".aiff" or ".aac" or ".ogg" => "Audio",
-                _ => "Other"
+                ".png" or ".jpg" or ".jpeg" or ".gif" or ".raw" or ".bmp" => Categories.Images,
+                ".mp4" or ".mov" or ".mkv" or ".mpeg" or ".avi" or ".wmv" or ".flv" => Categories.Videos,
+                ".doc" or ".docx" or ".txt" or ".fb2" or ".csv" or ".json" or ".pdf" or ".xlsx" or ".xls" or ".rtf" or ".epub" or ".ppt" => Categories.Documents,
+                ".mp3" or ".flac" or ".wav" or ".aiff" or ".aac" or ".ogg" => Categories.Audio,
+                _ => Categories.Other
             };
         }
+    }
+    class Categories
+    {
+        public const string Images = "Images";
+        public const string Videos = "Videos";
+        public const string Documents = "Documents";
+        public const string Audio = "Audio";
+        public const string Other = "Other";
     }
 }
