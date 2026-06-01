@@ -42,16 +42,31 @@
         }
         private string GetCategory(string extension)
         {
-            if (string.IsNullOrEmpty(extension)) return "Other";
-            return extension.ToLower() switch
-            {
-                ".png" or ".jpg" or ".jpeg" or ".gif" or ".raw" or ".bmp" => Categories.Images,
-                ".mp4" or ".mov" or ".mkv" or ".mpeg" or ".avi" or ".wmv" or ".flv" => Categories.Videos,
-                ".doc" or ".docx" or ".txt" or ".fb2" or ".csv" or ".json" or ".pdf" or ".xlsx" or ".xls" or ".rtf" or ".epub" or ".ppt" => Categories.Documents,
-                ".mp3" or ".flac" or ".wav" or ".aiff" or ".aac" or ".ogg" => Categories.Audio,
-                _ => Categories.Other
-            };
+            if (string.IsNullOrEmpty(extension))
+                return Categories.Other;
+
+            return FileCategoryConfig.Extensions
+                .TryGetValue(extension.ToLower(), out var category)
+                    ? category
+                    : Categories.Other;
         }
+    }
+    class FileCategoryConfig
+    {
+        public static readonly Dictionary<string, string> Extensions = new()
+    {
+        { ".png", Categories.Images },{ ".jpg", Categories.Images },{ ".jpeg", Categories.Images },
+        { ".gif", Categories.Images },{ ".raw", Categories.Images },{ ".bmp", Categories.Images },
+        { ".mp4", Categories.Videos },{ ".mov", Categories.Videos },{ ".mkv", Categories.Videos },
+        { ".mpeg", Categories.Videos },{ ".avi", Categories.Videos },{ ".wmv", Categories.Videos },
+        { ".flv", Categories.Videos },{ ".doc", Categories.Documents },{ ".docx", Categories.Documents },
+        { ".txt", Categories.Documents },{ ".fb2", Categories.Documents },{ ".csv", Categories.Documents },
+        { ".json", Categories.Documents },{ ".pdf", Categories.Documents },{ ".xlsx", Categories.Documents },
+        { ".xls", Categories.Documents },{ ".rtf", Categories.Documents },{ ".epub", Categories.Documents },
+        { ".ppt", Categories.Documents },{ ".mp3", Categories.Audio },{ ".flac", Categories.Audio },
+        { ".wav", Categories.Audio },{ ".aiff", Categories.Audio },{ ".aac", Categories.Audio },
+        { ".ogg", Categories.Audio }
+    };
     }
     class Categories
     {
