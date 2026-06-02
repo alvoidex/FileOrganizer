@@ -24,15 +24,22 @@
         }
         private void OrganizeFiles(string srcPath)
         {
+            var categories = new HashSet<string>();
             var files = Directory.GetFiles(srcPath);
             var stats = new Dictionary<string, int>();
             foreach (var filePath in files)
             {
                 string extension = Path.GetExtension(filePath).ToLower();
                 string category = GetCategory(extension);
+                categories.Add(category);
                 if (!stats.ContainsKey(category)) stats[category] = 0;
                 stats[category]++;
                 Console.WriteLine($"{filePath} -> {category}");
+            }
+            foreach (var category in categories)
+            {
+                Directory.CreateDirectory(Path.Combine(srcPath, category));
+                Console.WriteLine($"Создана папка: {category}");
             }
             Console.WriteLine("Статистика:");
             foreach (var item in stats)
