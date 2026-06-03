@@ -41,6 +41,21 @@
                 Directory.CreateDirectory(Path.Combine(srcPath, category));
                 Console.WriteLine($"Создана папка: {category}");
             }
+            foreach (var filePath in files)
+            {
+                string extension = Path.GetExtension(filePath).ToLower();
+                string category = GetCategory(extension);
+
+                string destinationPath = Path.Combine(
+                    srcPath,
+                    category,
+                    Path.GetFileName(filePath));
+
+                File.Move(filePath, destinationPath);
+
+                Console.WriteLine(
+                    $"Перемещен: {Path.GetFileName(filePath)} -> {category}");
+            }
             Console.WriteLine("Статистика:");
             foreach (var item in stats)
             {
