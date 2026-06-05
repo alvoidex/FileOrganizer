@@ -51,6 +51,12 @@
                     category,
                     Path.GetFileName(filePath));
 
+                if (File.Exists(destinationPath))
+                {
+                    Console.WriteLine(
+                        $"Пропущен: {Path.GetFileName(filePath)} уже существует");
+                    continue;
+                }
                 File.Move(filePath, destinationPath);
 
                 Console.WriteLine(
