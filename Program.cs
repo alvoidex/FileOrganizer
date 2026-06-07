@@ -27,6 +27,8 @@
             var categories = new HashSet<string>();
             var files = Directory.GetFiles(srcPath);
             var stats = new Dictionary<string, int>();
+            int movedFiles = 0;
+            int skippedFiles = 0;
             foreach (var filePath in files)
             {
                 string extension = Path.GetExtension(filePath).ToLower();
@@ -55,9 +57,11 @@
                 {
                     Console.WriteLine(
                         $"Пропущен: {Path.GetFileName(filePath)} уже существует");
+                    skippedFiles++;
                     continue;
                 }
                 File.Move(filePath, destinationPath);
+                movedFiles++;
 
                 Console.WriteLine(
                     $"Перемещен: {Path.GetFileName(filePath)} -> {category}");
@@ -67,6 +71,8 @@
             {
                 Console.WriteLine($"Найдено {item.Key}: {item.Value}");
             }
+            Console.WriteLine($"\nПеремещено: {movedFiles}");
+            Console.WriteLine($"Пропущено: {skippedFiles}");
         }
         private string GetCategory(string extension)
         {
