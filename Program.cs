@@ -38,6 +38,15 @@
                 stats[category]++;
                 Console.WriteLine($"{filePath} -> {category}");
             }
+
+            Console.Write("Переместить файлы? (y/n): ");
+            var answer = Console.ReadLine();
+            if (answer?.ToLower() != "y")
+            {
+                Console.WriteLine("Режим предпросмотра завершен");
+                return;
+            }
+
             foreach (var category in categories)
             {
                 Directory.CreateDirectory(Path.Combine(srcPath, category));
@@ -60,11 +69,12 @@
                     skippedFiles++;
                     continue;
                 }
-                File.Move(filePath, destinationPath);
-                movedFiles++;
 
-                Console.WriteLine(
+                    File.Move(filePath, destinationPath);
+                    movedFiles++;
+                    Console.WriteLine(
                     $"Перемещен: {Path.GetFileName(filePath)} -> {category}");
+
             }
             Console.WriteLine("Статистика:");
             foreach (var item in stats)
