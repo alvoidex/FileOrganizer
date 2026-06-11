@@ -27,12 +27,20 @@
             var categories = new HashSet<string>();
             var files = Directory.GetFiles(srcPath);
             var stats = new Dictionary<string, int>();
+            var categorySizes = new Dictionary<string, long>();
             int movedFiles = 0;
             int skippedFiles = 0;
             foreach (var filePath in files)
             {
                 string extension = Path.GetExtension(filePath).ToLower();
                 string category = GetCategory(extension);
+                long fileSize = new FileInfo(filePath).Length;
+
+                if (!categorySizes.ContainsKey(category))
+                    categorySizes[category] = 0;
+
+                categorySizes[category] += fileSize;
+
                 categories.Add(category);
                 if (!stats.ContainsKey(category)) stats[category] = 0;
                 stats[category]++;
@@ -79,7 +87,8 @@
             Console.WriteLine("Статистика:");
             foreach (var item in stats)
             {
-                Console.WriteLine($"Найдено {item.Key}: {item.Value}");
+                Console.WriteLine(
+                        $"{item.Key}: {item.Value} файлов ({categorySizes[item.Key] / 1024 / 1024} MB)");
             }
             Console.WriteLine($"\nПеремещено: {movedFiles}");
             Console.WriteLine($"Пропущено: {skippedFiles}");
