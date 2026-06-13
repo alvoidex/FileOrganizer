@@ -28,6 +28,7 @@
             var files = Directory.GetFiles(srcPath);
             var stats = new Dictionary<string, int>();
             var categorySizes = new Dictionary<string, long>();
+            var fileMover = new FileMover();
             int movedFiles = 0;
             int skippedFiles = 0;
             foreach (var filePath in files)
@@ -70,18 +71,18 @@
                     category,
                     Path.GetFileName(filePath));
 
-                if (File.Exists(destinationPath))
+                if (fileMover.Move(filePath, destinationPath))
                 {
-                    Console.WriteLine(
-                        $"Пропущен: {Path.GetFileName(filePath)} уже существует");
-                    skippedFiles++;
-                    continue;
-                }
-
-                    File.Move(filePath, destinationPath);
                     movedFiles++;
                     Console.WriteLine(
                     $"Перемещен: {Path.GetFileName(filePath)} -> {category}");
+                }
+                else
+                {
+                    skippedFiles++;
+                    Console.WriteLine(
+        $"Пропущен: {Path.GetFileName(filePath)} уже существует");
+                }
 
             }
             Console.WriteLine("Статистика:");
@@ -102,6 +103,17 @@
                 .TryGetValue(extension.ToLower(), out var category)
                     ? category
                     : Categories.Other;
+        }
+    }
+    class FileMover
+    {
+        public bool Move(string sourcePath, string destinationPath)
+        {
+            if (File.Exists(destinationPath))
+                return false;
+
+            File.Move(sourcePath, destinationPath);
+            return true;
         }
     }
     class FileCategoryConfig
