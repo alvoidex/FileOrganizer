@@ -14,7 +14,7 @@
         {
             Console.Write("Введите путь:\n> ");
             string? srcPath = Console.ReadLine()?.Trim().Trim('"');
-            if (string.IsNullOrWhiteSpace(srcPath) ||!Directory.Exists(srcPath))
+            if (string.IsNullOrWhiteSpace(srcPath) || !Directory.Exists(srcPath))
             {
                 Console.WriteLine("Папка не найдена");
                 return;
@@ -25,7 +25,16 @@
         private void OrganizeFiles(string srcPath)
         {
             var categories = new HashSet<string>();
-            var files = Directory.GetFiles(srcPath);
+            string[] files;
+            try
+            {
+                files = Directory.GetFiles(srcPath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка доступа к папке: {ex.Message}");
+                return;
+            }
             var stats = new Dictionary<string, int>();
             var categorySizes = new Dictionary<string, long>();
             var fileMover = new FileMover();
@@ -80,8 +89,7 @@
                 else
                 {
                     skippedFiles++;
-                    Console.WriteLine(
-        $"Пропущен: {Path.GetFileName(filePath)} уже существует");
+                    Console.WriteLine($"Пропущен: {Path.GetFileName(filePath)} уже существует");
                 }
 
             }
@@ -109,11 +117,17 @@
     {
         public bool Move(string sourcePath, string destinationPath)
         {
-            if (File.Exists(destinationPath))
-                return false;
+            try
+            {
+                if (File.Exists(destinationPath))
+                    return false;
 
-            File.Move(sourcePath, destinationPath);
-            return true;
+                File.Move(sourcePath, destinationPath);
+                return true;
+            }
+            catch {
+                return false;
+            }
         }
     }
     class FileCategoryConfig
