@@ -28,7 +28,10 @@
             string[] files;
             try
             {
-                files = Directory.GetFiles(srcPath);
+                files = Directory.GetFiles(
+                    srcPath,
+                    "*",
+                    SearchOption.AllDirectories);
             }
             catch (Exception ex)
             {
