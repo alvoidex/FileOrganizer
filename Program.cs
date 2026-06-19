@@ -147,7 +147,10 @@
         { ".xls", Categories.Documents },{ ".rtf", Categories.Documents },{ ".epub", Categories.Documents },
         { ".ppt", Categories.Documents },{ ".mp3", Categories.Audio },{ ".flac", Categories.Audio },
         { ".wav", Categories.Audio },{ ".aiff", Categories.Audio },{ ".aac", Categories.Audio },
-        { ".ogg", Categories.Audio }
+        { ".ogg", Categories.Audio },{ ".exe", Categories.Programs },{ ".apk", Categories.Programs },
+        { ".msi", Categories.Programs },{ ".cab", Categories.Programs },{ ".app", Categories.Programs },
+        { ".rar", Categories.Archives },{ ".zip", Categories.Archives },{ ".7z", Categories.Archives },
+        { ".iso", Categories.Archives },{ ".tar", Categories.Archives },{ ".gz", Categories.Archives }
     };
     }
     class Categories
@@ -157,5 +160,7 @@
         public const string Documents = "Documents";
         public const string Audio = "Audio";
         public const string Other = "Other";
+        public const string Programs = "Programs";
+        public const string Archives = "Archives";
     }
 }
