@@ -38,6 +38,24 @@
                 Console.WriteLine($"Ошибка доступа к папке: {ex.Message}");
                 return;
             }
+            files = files.Where(file =>
+            {
+                string? parentFolder =
+                    Path.GetFileName(Path.GetDirectoryName(file));
+
+                return parentFolder != Categories.Images &&
+                       parentFolder != Categories.Videos &&
+                       parentFolder != Categories.Documents &&
+                       parentFolder != Categories.Audio &&
+                       parentFolder != Categories.Programs &&
+                       parentFolder != Categories.Archives &&
+                       parentFolder != Categories.Other;
+            }).ToArray();
+            if (files.Length == 0)
+            {
+                Console.WriteLine("Файлы не найдены");
+                return;
+            }
             var stats = new Dictionary<string, int>();
             var categorySizes = new Dictionary<string, long>();
             var fileMover = new FileMover();
