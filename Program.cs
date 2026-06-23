@@ -38,18 +38,21 @@
                 Console.WriteLine($"Ошибка доступа к папке: {ex.Message}");
                 return;
             }
+            var ignoredFolders = new HashSet<string>
+            {
+                Categories.Images,
+                Categories.Videos,
+                Categories.Documents,
+                Categories.Audio,
+                Categories.Programs,
+                Categories.Archives,
+                Categories.Other
+            };
             files = files.Where(file =>
             {
                 string? parentFolder =
                     Path.GetFileName(Path.GetDirectoryName(file));
-
-                return parentFolder != Categories.Images &&
-                       parentFolder != Categories.Videos &&
-                       parentFolder != Categories.Documents &&
-                       parentFolder != Categories.Audio &&
-                       parentFolder != Categories.Programs &&
-                       parentFolder != Categories.Archives &&
-                       parentFolder != Categories.Other;
+                return parentFolder != null && !ignoredFolders.Contains(parentFolder);
             }).ToArray();
             if (files.Length == 0)
             {
