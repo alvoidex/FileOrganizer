@@ -118,10 +118,10 @@
 
             }
             Console.WriteLine("Статистика:");
-            foreach (var item in stats)
+            foreach (var item in stats.OrderBy(x => x.Key))
             {
                 Console.WriteLine(
-                        $"{item.Key}: {item.Value} файлов ({categorySizes[item.Key] / 1024 / 1024} MB)");
+                    $"{item.Key}: {item.Value} файлов ({categorySizes[item.Key] / 1024 / 1024} MB)");
             }
             Console.WriteLine($"\nПеремещено: {movedFiles}");
             Console.WriteLine($"Пропущено: {skippedFiles}");
