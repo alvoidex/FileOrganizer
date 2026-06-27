@@ -121,7 +121,7 @@
             foreach (var item in stats.OrderBy(x => x.Key))
             {
                 Console.WriteLine(
-                    $"{item.Key}: {item.Value} файлов ({categorySizes[item.Key] / 1024 / 1024} MB)");
+                    $"{item.Key}: {item.Value} файлов ({(categorySizes[item.Key] / 1024.0 / 1024.0):F2} MB)");
             }
             Console.WriteLine($"\nПеремещено: {movedFiles}");
             Console.WriteLine($"Пропущено: {skippedFiles}");
