@@ -83,7 +83,7 @@
 
             Console.Write("Переместить файлы? (y/n): ");
             var answer = Console.ReadLine();
-            if (answer?.ToLower() != "y")
+            if (answer?.Trim().ToLower() != "y")
             {
                 Console.WriteLine("Режим предпросмотра завершен");
                 return;
