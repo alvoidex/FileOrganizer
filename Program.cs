@@ -66,7 +66,7 @@
             int skippedFiles = 0;
             foreach (var filePath in files)
             {
-                string extension = Path.GetExtension(filePath).ToLower();
+                string extension = Path.GetExtension(filePath).ToLowerInvariant();
                 string category = GetCategory(extension);
                 long fileSize = new FileInfo(filePath).Length;
 
@@ -96,7 +96,7 @@
             }
             foreach (var filePath in files)
             {
-                string extension = Path.GetExtension(filePath).ToLower();
+                string extension = Path.GetExtension(filePath).ToLowerInvariant();
                 string category = GetCategory(extension);
 
                 string destinationPath = Path.Combine(
@@ -132,7 +132,7 @@
                 return Categories.Other;
 
             return FileCategoryConfig.Extensions
-                .TryGetValue(extension.ToLower(), out var category)
+                .TryGetValue(extension.ToLowerInvariant(), out var category)
                     ? category
                     : Categories.Other;
         }
