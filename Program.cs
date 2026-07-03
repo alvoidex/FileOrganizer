@@ -125,6 +125,10 @@
             }
             Console.WriteLine($"\nПеремещено: {movedFiles}");
             Console.WriteLine($"Пропущено: {skippedFiles}");
+            long totalSize = categorySizes.Values.Sum();
+
+            Console.WriteLine($"\nВсего файлов: {files.Length}");
+            Console.WriteLine($"Общий размер: {(totalSize / 1024.0 / 1024.0):F2} MB");
         }
         private string GetCategory(string extension)
         {
