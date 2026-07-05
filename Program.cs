@@ -94,8 +94,12 @@
                 Directory.CreateDirectory(Path.Combine(srcPath, category));
                 Console.WriteLine($"Создана папка: {category}");
             }
-            foreach (var filePath in files)
+            for (int i = 0; i < files.Length; i++)
             {
+                var filePath = files[i];
+
+                Console.WriteLine($"[{i + 1}/{files.Length}] {Path.GetFileName(filePath)}");
+
                 string extension = Path.GetExtension(filePath).ToLowerInvariant();
                 string category = GetCategory(extension);
 
@@ -107,15 +111,13 @@
                 if (fileMover.Move(filePath, destinationPath))
                 {
                     movedFiles++;
-                    Console.WriteLine(
-                    $"Перемещен: {Path.GetFileName(filePath)} -> {category}");
+                    Console.WriteLine($"Перемещен: {Path.GetFileName(filePath)} -> {category}");
                 }
                 else
                 {
                     skippedFiles++;
                     Console.WriteLine($"Пропущен: {Path.GetFileName(filePath)} уже существует");
                 }
-
             }
             Console.WriteLine("Статистика:");
             foreach (var item in stats.OrderBy(x => x.Key))
