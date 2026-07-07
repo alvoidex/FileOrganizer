@@ -1,4 +1,6 @@
-﻿namespace FileOrganizer
+﻿using System.Collections;
+
+namespace FileOrganizer
 {
     internal class Program
     {
@@ -119,6 +121,10 @@
                     Console.WriteLine($"Пропущен: {Path.GetFileName(filePath)} уже существует");
                 }
             }
+            PrintStats(stats, categorySizes, movedFiles, skippedFiles, files);
+        }
+        private void PrintStats(Dictionary<string, int> stats, Dictionary<string, long> categorySizes, int movedFiles, int skippedFiles, string[] files)
+        {
             Console.WriteLine("Статистика:");
             foreach (var item in stats.OrderBy(x => x.Key))
             {
