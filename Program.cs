@@ -66,22 +66,7 @@ namespace FileOrganizer
             var fileMover = new FileMover();
             int movedFiles = 0;
             int skippedFiles = 0;
-            foreach (var filePath in files)
-            {
-                string extension = Path.GetExtension(filePath).ToLowerInvariant();
-                string category = GetCategory(extension);
-                long fileSize = new FileInfo(filePath).Length;
-
-                if (!categorySizes.ContainsKey(category))
-                    categorySizes[category] = 0;
-
-                categorySizes[category] += fileSize;
-
-                categories.Add(category);
-                if (!stats.ContainsKey(category)) stats[category] = 0;
-                stats[category]++;
-                Console.WriteLine($"{filePath} -> {category}");
-            }
+            PreviewFiles(files, categories, stats, categorySizes);
 
             Console.Write("Переместить файлы? (y/n): ");
             var answer = Console.ReadLine();
@@ -123,7 +108,40 @@ namespace FileOrganizer
             }
             PrintStats(stats, categorySizes, movedFiles, skippedFiles, files);
         }
-        private void PrintStats(Dictionary<string, int> stats, Dictionary<string, long> categorySizes, int movedFiles, int skippedFiles, string[] files)
+
+        private void PreviewFiles(
+            string[] files,
+            HashSet<string> categories,
+            Dictionary<string, int> stats,
+            Dictionary<string, long> categorySizes)
+        {
+            foreach (var filePath in files)
+            {
+                string extension = Path.GetExtension(filePath).ToLowerInvariant();
+                string category = GetCategory(extension);
+                long fileSize = new FileInfo(filePath).Length;
+
+                if (!categorySizes.ContainsKey(category))
+                    categorySizes[category] = 0;
+
+                categorySizes[category] += fileSize;
+
+                categories.Add(category);
+
+                if (!stats.ContainsKey(category))
+                    stats[category] = 0;
+
+                stats[category]++;
+
+                Console.WriteLine($"{filePath} -> {category}");
+            }
+        }
+        private void PrintStats(
+            Dictionary<string,int> stats,
+            Dictionary<string,long> categorySizes,
+            int movedFiles,
+            int skippedFiles,
+            string[] files)
         {
             Console.WriteLine("Статистика:");
             foreach (var item in stats.OrderBy(x => x.Key))
