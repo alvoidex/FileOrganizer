@@ -75,12 +75,7 @@ namespace FileOrganizer
                 Console.WriteLine("Режим предпросмотра завершен");
                 return;
             }
-
-            foreach (var category in categories)
-            {
-                Directory.CreateDirectory(Path.Combine(srcPath, category));
-                Console.WriteLine($"Создана папка: {category}");
-            }
+            CreateCategoryFolders(srcPath, categories);
             for (int i = 0; i < files.Length; i++)
             {
                 var filePath = files[i];
@@ -108,7 +103,14 @@ namespace FileOrganizer
             }
             PrintStats(stats, categorySizes, movedFiles, skippedFiles, files);
         }
-
+        private void CreateCategoryFolders(string srcPath, HashSet<string> categories)
+        {
+            foreach (var category in categories)
+            {
+                Directory.CreateDirectory(Path.Combine(srcPath, category));
+                Console.WriteLine($"Создана папка: {category}");
+            }
+        }
         private void PreviewFiles(
             string[] files,
             HashSet<string> categories,
