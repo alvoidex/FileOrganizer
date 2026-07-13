@@ -40,22 +40,7 @@ namespace FileOrganizer
                 Console.WriteLine($"Ошибка доступа к папке: {ex.Message}");
                 return;
             }
-            var ignoredFolders = new HashSet<string>
-            {
-                Categories.Images,
-                Categories.Videos,
-                Categories.Documents,
-                Categories.Audio,
-                Categories.Programs,
-                Categories.Archives,
-                Categories.Other
-            };
-            files = files.Where(file =>
-            {
-                string? parentFolder =
-                    Path.GetFileName(Path.GetDirectoryName(file));
-                return parentFolder != null && !ignoredFolders.Contains(parentFolder);
-            }).ToArray();
+            files = FilterFiles(files);
             if (files.Length == 0)
             {
                 Console.WriteLine("Файлы не найдены");
@@ -102,6 +87,25 @@ namespace FileOrganizer
                 }
             }
             PrintStats(stats, categorySizes, movedFiles, skippedFiles, files);
+        }
+        private string[] FilterFiles(string[] files)
+        {
+            var ignoredFolders = new HashSet<string>
+        {
+            Categories.Images,
+            Categories.Videos,
+            Categories.Documents,
+            Categories.Audio,
+            Categories.Programs,
+            Categories.Archives,
+            Categories.Other
+        };
+
+            return files.Where(file =>
+            {
+                string? parentFolder = Path.GetFileName(Path.GetDirectoryName(file));
+                return parentFolder != null && !ignoredFolders.Contains(parentFolder);
+            }).ToArray();
         }
         private void CreateCategoryFolders(string srcPath, HashSet<string> categories)
         {
