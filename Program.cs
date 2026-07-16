@@ -14,15 +14,18 @@ namespace FileOrganizer
     {
         public void Start()
         {
-            Console.Write("Введите путь:\n> ");
-            string? srcPath = Console.ReadLine()?.Trim().Trim('"');
-            if (string.IsNullOrWhiteSpace(srcPath) || !Directory.Exists(srcPath))
+            while (true)
             {
-                Console.WriteLine("Папка не найдена");
-                return;
+                Console.Write("Введите путь до папки с файлами:\n> ");
+                string? srcPath = Console.ReadLine()?.Trim().Trim('"');
+                if (string.IsNullOrWhiteSpace(srcPath) || !Directory.Exists(srcPath))
+                {
+                    Console.WriteLine("Папка не найдена");
+                    continue;
 
+                }
+                OrganizeFiles(srcPath);
             }
-            OrganizeFiles(srcPath);
         }
         private void OrganizeFiles(string srcPath)
         {
